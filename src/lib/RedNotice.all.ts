@@ -74,10 +74,6 @@ export interface RedNoticeImage {
     _links: RedNoticeLinks
 }
 
-export interface RedNoticeImages {
-    images: RedNoticeImage[]
-}
-
 export interface RedNoticeImages extends RedNoticeEmbedded<RedNoticeImages> {
     _links: RedNoticeLinks
 }

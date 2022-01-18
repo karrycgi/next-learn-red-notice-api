@@ -4,7 +4,7 @@ searchRedNotice().then((result: RedNoticeResult) => {
     console.log("TOTAL: ", result.total)
     imagesRedNotice(result._embedded.notices[0])
         .then((images: RedNoticeImages) => {
-            console.log(images.images);
+            console.log(images);
         })
         .catch(console.error)
     
