@@ -1,1 +1,1 @@
-export * from "./src/lib/RedNotice.all";
+export * from "./lib/RedNotice.all";

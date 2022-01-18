@@ -2,6 +2,7 @@
   "name": "next-learn-red-notice-api",
   "version": "1.0.0",
   "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "repository": "https://github.com/karrycgi/next-learn-red-notice-api.git",
   "author": "Martin Karry <martin.karry@cgi.com>",
   "license": "MIT",
