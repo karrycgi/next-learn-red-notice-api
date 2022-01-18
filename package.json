@@ -1,0 +1,23 @@
+{
+  "name": "next-learn-red-notice-api",
+  "version": "1.0.0",
+  "main": "./src/index.js",
+  "repository": "https://github.com/karrycgi/next-learn-red-notice-api.git",
+  "author": "Martin Karry <martin.karry@cgi.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node-dev --respawn ./src/index.ts"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "jest": "^27.4.7",
+    "node-fetch": "^3.1.1",
+    "ts-jest": "^27.1.3",
+    "ts-node": "^10.4.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "axios": "^0.24.0"
+  }
+}
