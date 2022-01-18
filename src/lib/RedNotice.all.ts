@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export type SexId = "F" | "M" | "D";
+export type SexId = "F" | "M" | "U";
 
 export interface RedNoticeEmbedded<T> {
     _embedded: T
@@ -78,6 +78,8 @@ export interface RedNoticeImages extends RedNoticeEmbedded<RedNoticeImages> {
     _links: RedNoticeLinks
 }
 
+export class RedNoticeError extends Error { }
+
 const createSearchQueryUrl = (query: RedNoticeQuery): string => {
     return `https://ws-public.interpol.int/notices/v1/red?forename=${query.forename}&name=${query.name}&nationality=${query.nationality}&ageMax=${query.ageMax}&ageMin=${query.ageMin}&sexId=${query.sexId}&arrestWarrantCountryId=${query.arrestWarrantCountryId}&page=${query.page}&resultPerPage=${query.resultPerPage}`;
 }
@@ -89,8 +91,6 @@ const createSearchAllQueryUrl = (): string => {
 export const searchRedNotice = async (query?: RedNoticeQuery): Promise<RedNoticeResult> => {
     return await (await axios.get<RedNoticeResult>(query ? createSearchQueryUrl(query) : createSearchAllQueryUrl())).data;
 }
-
-export class RedNoticeError extends Error { }
 
 export const detailsRedNotice = async (value: string | RedNotice): Promise<RedNoticeDetails> => {
     const reqUrl:string | undefined = typeof value === "string"
