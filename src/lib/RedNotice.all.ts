@@ -2,6 +2,10 @@ import axios from "axios";
 
 export type SexId = "F" | "M" | "D";
 
+export interface RedNoticeEmbedded<T> {
+    _embedded: T
+}
+
 export interface RedNoticeQuery {
     forename: string,
     name: string,
@@ -14,14 +18,13 @@ export interface RedNoticeQuery {
     resultPerPage: number,
 }
 
-export interface RedNoticeResult {
+export interface RedNoticeResult extends RedNoticeEmbedded<RedNoticeNotices> {
     total: number,
     query: RedNoticeQuery,
-    _embedded: RedNoticeEmbedded,
     _links: RedNoticeLinks
 }
 
-export interface RedNoticeEmbedded {
+export interface RedNoticeNotices {
     notices: RedNotice[]
 }
 
@@ -38,7 +41,7 @@ export interface RedNoticeLinks {
     self?: RedNoticeHref,
     first?: RedNoticeHref,
     last?: RedNoticeHref,
-    image?: RedNoticeHref,
+    images?: RedNoticeHref,
     thumbnail?: RedNoticeHref
 }
 
@@ -52,7 +55,7 @@ export interface RedNoticeArrestWarrent {
     charge_translation: null | string | undefined
 }
 
-export interface RedNoticeDetails extends RedNotice {
+export interface RedNoticeDetails extends RedNotice, RedNoticeEmbedded<string[]> {
     arrest_warrants: RedNoticeArrestWarrent[],
     weight: number,
     languages_spoken_ids: string[],
@@ -63,7 +66,19 @@ export interface RedNoticeDetails extends RedNotice {
     eyes_colors_id: string[],
     hairs_id: string[],
     place_of_birth: string
-    _embedded: string[],
+    _links: RedNoticeLinks
+}
+
+export interface RedNoticeImage {
+    picture_id: string,
+    _links: RedNoticeLinks
+}
+
+export interface RedNoticeImages {
+    images: RedNoticeImage[]
+}
+
+export interface RedNoticeImages extends RedNoticeEmbedded<RedNoticeImages> {
     _links: RedNoticeLinks
 }
 
@@ -89,5 +104,17 @@ export const detailsRedNotice = async (value: string | RedNotice): Promise<RedNo
         return await (await axios.get<RedNoticeDetails>(reqUrl)).data;
     } else {
         throw new RedNoticeError("Request URL for details couldn't be build");
+    }
+}
+
+export const imagesRedNotice = async (value: string | RedNotice): Promise<RedNoticeImages> => {
+    const reqUrl:string | undefined = typeof value === "string"
+        ?`https://ws-public.interpol.int/notices/v1/red/${value}/images`
+        :value._links?.images?.href;
+    if(reqUrl) {
+        return await (await axios.get<RedNoticeImages>(reqUrl)).data;
+    } else {
+        console.log(value);
+        throw new RedNoticeError("Request URL for images couldn't be build");
     }
 }
