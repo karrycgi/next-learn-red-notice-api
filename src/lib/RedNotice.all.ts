@@ -93,22 +93,30 @@ export const searchRedNotice = async (query?: RedNoticeQuery): Promise<RedNotice
 }
 
 export const detailsRedNotice = async (value: string | RedNotice): Promise<RedNoticeDetails> => {
-    const reqUrl:string | undefined = typeof value === "string"
-        ?`https://ws-public.interpol.int/notices/v1/red/${value}`
-        :value._links?.self?.href;
-    if(reqUrl) {
-        return await (await axios.get<RedNoticeDetails>(reqUrl)).data;
+    const reqUrl: string | undefined = typeof value === "string"
+        ? `https://ws-public.interpol.int/notices/v1/red/${encodeURIComponent(value)}`
+        : value._links?.self?.href;
+    if (reqUrl) {
+        try {
+            return await (await axios.get<RedNoticeDetails>(reqUrl)).data;
+        } catch (e) {
+            throw new RedNoticeError(`Request on: ${reqUrl} failed`);
+        }
     } else {
         throw new RedNoticeError("Request URL for details couldn't be build");
     }
 }
 
 export const imagesRedNotice = async (value: string | RedNotice): Promise<RedNoticeImages> => {
-    const reqUrl:string | undefined = typeof value === "string"
-        ?`https://ws-public.interpol.int/notices/v1/red/${value}/images`
-        :value._links?.images?.href;
-    if(reqUrl) {
-        return await (await axios.get<RedNoticeImages>(reqUrl)).data;
+    const reqUrl: string | undefined = typeof value === "string"
+        ? `https://ws-public.interpol.int/notices/v1/red/${encodeURIComponent(value)}/images`
+        : value._links?.images?.href;
+    if (reqUrl) {
+        try {
+            return await (await axios.get<RedNoticeImages>(reqUrl)).data;
+        } catch (e) {
+            throw new RedNoticeError(`Request on: ${reqUrl} failed`);
+        }
     } else {
         console.log(value);
         throw new RedNoticeError("Request URL for images couldn't be build");

@@ -30,10 +30,15 @@ exports.searchRedNotice = searchRedNotice;
 const detailsRedNotice = (value) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     const reqUrl = typeof value === "string"
-        ? `https://ws-public.interpol.int/notices/v1/red/${value}`
+        ? `https://ws-public.interpol.int/notices/v1/red/${encodeURIComponent(value)}`
         : (_b = (_a = value._links) === null || _a === void 0 ? void 0 : _a.self) === null || _b === void 0 ? void 0 : _b.href;
     if (reqUrl) {
-        return yield (yield axios_1.default.get(reqUrl)).data;
+        try {
+            return yield (yield axios_1.default.get(reqUrl)).data;
+        }
+        catch (e) {
+            throw new RedNoticeError(`Request on: ${reqUrl} failed`);
+        }
     }
     else {
         throw new RedNoticeError("Request URL for details couldn't be build");
@@ -43,10 +48,15 @@ exports.detailsRedNotice = detailsRedNotice;
 const imagesRedNotice = (value) => __awaiter(void 0, void 0, void 0, function* () {
     var _c, _d;
     const reqUrl = typeof value === "string"
-        ? `https://ws-public.interpol.int/notices/v1/red/${value}/images`
+        ? `https://ws-public.interpol.int/notices/v1/red/${encodeURIComponent(value)}/images`
         : (_d = (_c = value._links) === null || _c === void 0 ? void 0 : _c.images) === null || _d === void 0 ? void 0 : _d.href;
     if (reqUrl) {
-        return yield (yield axios_1.default.get(reqUrl)).data;
+        try {
+            return yield (yield axios_1.default.get(reqUrl)).data;
+        }
+        catch (e) {
+            throw new RedNoticeError(`Request on: ${reqUrl} failed`);
+        }
     }
     else {
         console.log(value);
