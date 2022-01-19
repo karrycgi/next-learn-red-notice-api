@@ -21,7 +21,7 @@ const createSearchQueryUrl = (query) => {
     return `https://ws-public.interpol.int/notices/v1/red?forename=${query.forename}&name=${query.name}&nationality=${query.nationality}&ageMax=${query.ageMax}&ageMin=${query.ageMin}&sexId=${query.sexId}&arrestWarrantCountryId=${query.arrestWarrantCountryId}&page=${query.page}&resultPerPage=${query.resultPerPage}`;
 };
 const createSearchAllQueryUrl = () => {
-    return `https://ws-public.interpol.int/notices/v1/red?page=${1}&resultPerPage=${200}`;
+    return `https://ws-public.interpol.int/notices/v1/red?page=${1}&resultPerPage=${5}`;
 };
 const searchRedNotice = (query) => __awaiter(void 0, void 0, void 0, function* () {
     return yield (yield axios_1.default.get(query ? createSearchQueryUrl(query) : createSearchAllQueryUrl())).data;
