@@ -85,7 +85,7 @@ const createSearchQueryUrl = (query: RedNoticeQuery): string => {
 }
 
 const createSearchAllQueryUrl = (): string => {
-    return `https://ws-public.interpol.int/notices/v1/red?page=${1}&resultPerPage=${200}`;
+    return `https://ws-public.interpol.int/notices/v1/red?page=${1}&resultPerPage=${5}`;
 }
 
 export const searchRedNotice = async (query?: RedNoticeQuery): Promise<RedNoticeResult> => {
