@@ -12,19 +12,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.imagesRedNotice = exports.detailsRedNotice = exports.searchRedNotice = exports.RedNoticeError = void 0;
+exports.imagesRedNotice = exports.detailsRedNotice = exports.searchRedNotice = exports.createSearchAllQueryUrl = exports.createSearchQueryUrl = exports.RedNoticeError = void 0;
 const axios_1 = __importDefault(require("axios"));
 class RedNoticeError extends Error {
 }
 exports.RedNoticeError = RedNoticeError;
 const createSearchQueryUrl = (query) => {
-    return `https://ws-public.interpol.int/notices/v1/red?forename=${query.forename}&name=${query.name}&nationality=${query.nationality}&ageMax=${query.ageMax}&ageMin=${query.ageMin}&sexId=${query.sexId}&arrestWarrantCountryId=${query.arrestWarrantCountryId}&page=${query.page}&resultPerPage=${query.resultPerPage}`;
+    const queryString = Object.keys(query)
+        .filter((fieldname) => query[fieldname] !== undefined)
+        .map((fieldname) => `${fieldname}=${query[fieldname]}`)
+        .join('&');
+    return `https://ws-public.interpol.int/notices/v1/red?${queryString}`;
 };
+exports.createSearchQueryUrl = createSearchQueryUrl;
 const createSearchAllQueryUrl = () => {
     return `https://ws-public.interpol.int/notices/v1/red?page=${1}&resultPerPage=${5}`;
 };
+exports.createSearchAllQueryUrl = createSearchAllQueryUrl;
 const searchRedNotice = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield (yield axios_1.default.get(query ? createSearchQueryUrl(query) : createSearchAllQueryUrl())).data;
+    return yield (yield axios_1.default.get(query ? (0, exports.createSearchQueryUrl)(query) : (0, exports.createSearchAllQueryUrl)())).data;
 });
 exports.searchRedNotice = searchRedNotice;
 const detailsRedNotice = (value) => __awaiter(void 0, void 0, void 0, function* () {

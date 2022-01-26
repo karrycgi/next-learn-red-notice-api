@@ -3,13 +3,13 @@ export interface RedNoticeEmbedded<T> {
     _embedded: T;
 }
 export interface RedNoticeQuery {
-    forename: string;
-    name: string;
-    nationality: string;
-    ageMax: number;
-    ageMin: number;
-    sexId: SexId;
-    arrestWarrantCountryId: string;
+    forename?: string;
+    name?: string;
+    nationality?: string;
+    ageMax?: number;
+    ageMin?: number;
+    sexId?: SexId;
+    arrestWarrantCountryId?: string;
     page: number;
     resultPerPage: number;
 }
@@ -66,6 +66,8 @@ export interface RedNoticeImages extends RedNoticeEmbedded<RedNoticeImages> {
 }
 export declare class RedNoticeError extends Error {
 }
+export declare const createSearchQueryUrl: (query: RedNoticeQuery) => string;
+export declare const createSearchAllQueryUrl: () => string;
 export declare const searchRedNotice: (query?: RedNoticeQuery | undefined) => Promise<RedNoticeResult>;
 export declare const detailsRedNotice: (value: string | RedNotice) => Promise<RedNoticeDetails>;
 export declare const imagesRedNotice: (value: string | RedNotice) => Promise<RedNoticeImages>;

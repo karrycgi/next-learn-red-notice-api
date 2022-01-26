@@ -7,13 +7,13 @@ export interface RedNoticeEmbedded<T> {
 }
 
 export interface RedNoticeQuery {
-    forename: string,
-    name: string,
-    nationality: string,
-    ageMax: number,
-    ageMin: number,
-    sexId: SexId,
-    arrestWarrantCountryId: string,
+    forename?: string,
+    name?: string,
+    nationality?: string,
+    ageMax?: number,
+    ageMin?: number,
+    sexId?: SexId,
+    arrestWarrantCountryId?: string,
     page: number,
     resultPerPage: number,
 }
@@ -80,11 +80,15 @@ export interface RedNoticeImages extends RedNoticeEmbedded<RedNoticeImages> {
 
 export class RedNoticeError extends Error { }
 
-const createSearchQueryUrl = (query: RedNoticeQuery): string => {
-    return `https://ws-public.interpol.int/notices/v1/red?forename=${query.forename}&name=${query.name}&nationality=${query.nationality}&ageMax=${query.ageMax}&ageMin=${query.ageMin}&sexId=${query.sexId}&arrestWarrantCountryId=${query.arrestWarrantCountryId}&page=${query.page}&resultPerPage=${query.resultPerPage}`;
+export const createSearchQueryUrl = (query: RedNoticeQuery): string => {
+    const queryString: string = Object.keys(query)
+        .filter((fieldname: string) => (query as any)[fieldname] !== undefined)
+        .map((fieldname: string) => `${fieldname}=${(query as any)[fieldname]}`)
+        .join('&');
+    return `https://ws-public.interpol.int/notices/v1/red?${queryString}`;
 }
 
-const createSearchAllQueryUrl = (): string => {
+export const createSearchAllQueryUrl = (): string => {
     return `https://ws-public.interpol.int/notices/v1/red?page=${1}&resultPerPage=${5}`;
 }
 

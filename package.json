@@ -7,7 +7,7 @@
   "author": "Martin Karry <martin.karry@cgi.com>",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node-dev --respawn ./src/index.ts",
+    "start": "ts-node-dev --respawn ./src/app.ts",
     "build": "tsc"
   },
   "devDependencies": {
